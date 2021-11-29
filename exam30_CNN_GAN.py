@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+
+import pandas as pd
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.layers import *
 from tensorflow.keras.models import Sequential
@@ -75,8 +77,23 @@ gan_model.add(discriminator_model)
 print(gan_model.summary())
 gan_model.compile(loss='binary_crossentropy', optimizer='adam')
 
-(X_train, _), (_, _) = mnist.load_data()
-print(X_train.shape)
+(X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+
+print(X_train.shape, Y_train.shape)
+MY_NUMBER = 8
+X_train = X_train[Y_train == MY_NUMBER]
+print(len(X_train))
+
+_, axs = plt.subplots(4, 4, figsize=(4, 4),
+            sharey=True, sharex=True)
+cnt = 0
+for i in range(4):
+    for j in range(4):
+        axs[i, j].imshow(X_train[cnt, :, :], cmap='gray')
+        axs[i, j].axis('off')
+        cnt += 1
+plt.show()
+
 
 X_train = X_train / 127.5 - 1
 X_train = np.expand_dims(X_train, axis=3)
@@ -120,6 +137,7 @@ for itr in range(epoch):
         plt.savefig(path)
         plt.close()
 
+gan_model.save('./GAN_mnist_{}.h5'.format(MY_NUMBER))
 
 
 
