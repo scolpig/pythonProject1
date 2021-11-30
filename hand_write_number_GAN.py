@@ -62,7 +62,7 @@ plt.show()
 # cnt = 0
 
 # for j in range(4):
-#     axs[j].imshow(img[j].reshape(28, 28), cmap='gray')
+#     axs[j].imshow(img[j], cmap='gray')
 #     axs[j].axis('off')
 #     cnt += 1
 # plt.show()
