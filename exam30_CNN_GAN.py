@@ -26,7 +26,7 @@ OUT_DIR = './CNN_OUT_img/'
 if not os.path.exists(OUT_DIR):
     os.makedirs(OUT_DIR)
 img_shape = (28, 28, 1)
-epoch = 100000
+epoch = 10000
 batch_size = 128
 noise = 100
 sample_interval = 100
