@@ -137,7 +137,7 @@ for itr in range(epoch):
         plt.savefig(path)
         plt.close()
 
-gan_model.save('./GAN_mnist_{}.h5'.format(MY_NUMBER))
+generator_model.save('./generator_mnist_{}.h5'.format(MY_NUMBER))
 
 
 
