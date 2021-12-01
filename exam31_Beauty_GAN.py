@@ -65,7 +65,9 @@ for i, face in enumerate(test_faces):
 plt.show()
 
 sess = tf.Session()
-sess.run(tf.global_variables_initializer())
+init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
+sess.run(init_op)
+# sess.run(tf.global_variables_initializer())
 saver = tf.train.import_meta_graph('./models/model.meta')
 saver.restore(sess, tf.train.latest_checkpoint('./models'))
 graph = tf.get_default_graph()
@@ -78,10 +80,10 @@ def preprocess(img):
 def deprocess(img):
     return (img + 1) / 2
 
-img1 = dlib.load_rgb_image('./imgs/no_makeup/xfsy_0068.png')
+img1 = dlib.load_rgb_image('./imgs/leedahee.jpg')
 img1_faces = align_faces(img1)
 
-img2 = dlib.load_rgb_image('./imgs/makeup/vFG56.png')
+img2 = dlib.load_rgb_image('./imgs/makeup/XMY-014.png')
 img2_faces = align_faces(img2)
 
 fig, axes = plt.subplots(1, 2, figsize=(16, 10))
