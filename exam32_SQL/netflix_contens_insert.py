@@ -1,6 +1,8 @@
 import pandas as pd
+pd.set_option('display.max_columns', 20)
 import pymysql
 import numpy as np
+import pickle
 #print(np.nan)
 # a = np.nan
 # if a == np.nan:
@@ -14,8 +16,23 @@ import numpy as np
 # else:
 #     print(' nan is nan')
 #
-def insert(self, sql):
-    conn = pymysql.connect(
+
+df = pd.read_csv('../datasets/netflix_titles.csv')
+#print(df.head())
+# print(df.tail())
+df.info()
+
+df.fillna('', inplace=True)
+for i in range(len(df)):
+    for j in range(12):
+        df.iloc[i, j] = df.iloc[i, j].replace('"', '%\\"')
+        df.iloc[i, j] = df.iloc[i, j].replace("'", "\\'")
+
+# df = df.replace("'", "\\'")
+# df = df.replace('"', '%\\"')
+#print(df.head(20))
+
+conn = pymysql.connect(
         user='root',
         passwd='jsl10204^^',  # 자신의 비번 입력
         host='127.0.0.1',
@@ -23,27 +40,12 @@ def insert(self, sql):
         db='netflix',
         charset='utf8'
     )
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(sql)
-        conn.commit()
-    except:
-        print('conn error')
-    finally:
-        conn.close()
 
-df = pd.read_csv('../datasets/netflix_titles.csv')
-print(df.head())
-# print(df.tail())
-df.info()
-df.fillna('', inplace=True)
-# print(df.director.isnull())
+errors = []
 
 for i in range(len(df)):
-    if i < 5:
-        #print(df.iloc[i, :])
-
-        sql = '''insert into netflix_contens value(
+    try:
+        sql = '''insert into netflix_contents value(
                           {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});'''.format(
             '"{}"'.format(df.iloc[i, 0]),
             '"{}"'.format(df.iloc[i, 1]),
@@ -58,8 +60,20 @@ for i in range(len(df)):
             '"{}"'.format(df.iloc[i, 10]),
             '"{}"'.format(df.iloc[i, 11]))
         print(sql)
+        with conn.cursor() as cursor:
+            cursor.execute(sql)
+            conn.commit()
+    except:
+        errors.append(i)
+        print(i)
+
+conn.close()
+with open('./errors.pickle', 'wb') as f:
+    pickle.dump(errors, f)
 
 
+# a = "\'hello\' \"world\""
+# print(a)
 
 # print(df.description.head())
 # #print(df.duration.unique())
