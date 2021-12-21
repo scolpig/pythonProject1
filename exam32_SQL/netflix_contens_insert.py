@@ -24,7 +24,7 @@ df.info()
 
 df.fillna('', inplace=True)
 for i in range(len(df)):
-    for j in range(12):
+    for j in [1,2,3,4,5,6,8,9,10,11]:
         df.iloc[i, j] = df.iloc[i, j].replace('"', '%\\"')
         df.iloc[i, j] = df.iloc[i, j].replace("'", "\\'")
 
@@ -34,7 +34,7 @@ for i in range(len(df)):
 
 conn = pymysql.connect(
         user='root',
-        passwd='jsl10204^^',  # 자신의 비번 입력
+        passwd='your password',  # 자신의 비번 입력
         host='127.0.0.1',
         port=3306,
         db='netflix',
