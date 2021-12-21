@@ -17,6 +17,11 @@ import pickle
 #     print(' nan is nan')
 #
 
+a = "\\\""
+
+print("%x%% a\"\\"%(10))
+
+exit()
 df = pd.read_csv('../datasets/netflix_titles.csv')
 #print(df.head())
 # print(df.tail())
@@ -24,9 +29,10 @@ df.info()
 
 df.fillna('', inplace=True)
 for i in range(len(df)):
-    for j in [1,2,3,4,5,6,8,9,10,11]:
-        df.iloc[i, j] = df.iloc[i, j].replace('"', '%\\"')
-        df.iloc[i, j] = df.iloc[i, j].replace("'", "\\'")
+    for j in range(12):
+        if j != 7:
+            df.iloc[i, j] = df.iloc[i, j].replace('"', '\\\"')
+            df.iloc[i, j] = df.iloc[i, j].replace("'", "\\\'")
 
 # df = df.replace("'", "\\'")
 # df = df.replace('"', '%\\"')
@@ -40,8 +46,10 @@ conn = pymysql.connect(
         db='netflix',
         charset='utf8'
     )
-
 errors = []
+# with open('./errors.pickle', 'rb') as f:
+#    error_list = pickle.load(f)
+# for i in error_list:
 
 for i in range(len(df)):
     try:

@@ -10,6 +10,7 @@ class Exam(QWidget, form_window):
         super().__init__()
         self.setupUi(self)
         self.btn_insert.clicked.connect(self.btn_insert_slot)
+        self.le_userid.setMaxLength(8)
 
     def btn_insert_slot(self):
         userID, userName, birthYear, addr, mobile, height = None, None, None, None, None, None
