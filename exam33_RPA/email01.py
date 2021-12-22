@@ -5,7 +5,7 @@ from smtplib import SMTP_SSL
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 465
 SMTP_USER = 'scolpigemail@gmail.com'
-SMTP_PASSWORD = 'pqpdfxznoqciwoyn' # 자신의 비번을 입력
+SMTP_PASSWORD = 'your password' # 자신의 비번을 입력
 
 def send_mail(name, recvs, cc, hidden_cc, contents, attachment=False):
     msg = MIMEMultipart('alternative')
