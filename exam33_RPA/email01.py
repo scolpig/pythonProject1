@@ -5,7 +5,7 @@ from smtplib import SMTP_SSL
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 465
 SMTP_USER = 'scolpigemail@gmail.com'
-SMTP_PASSWORD = '' # 자신의 비번을 입력
+SMTP_PASSWORD = 'pqpdfxznoqciwoyn' # 자신의 비번을 입력
 
 def send_mail(name, recvs, cc, hidden_cc, contents, attachment=False):
     msg = MIMEMultipart('alternative')
@@ -21,12 +21,21 @@ def send_mail(name, recvs, cc, hidden_cc, contents, attachment=False):
     text = MIMEText(contents)
     msg.attach(text)
 
-    # if attachment:
-    #     from email.mime.base import MIMEBase
-    #     from email import encoders
-    #
-    #     file_data = MIMEBase('application', 'octet-stream')
-    #     f = open(attachment, 'rb')
+    if attachment:
+        from email.mime.base import MIMEBase
+        from email import encoders
+
+        file_data = MIMEBase('application', 'octet-stream')
+        f = open(attachment, 'rb')
+        file_contents = f.read()
+        file_data.set_payload(file_contents)
+        encoders.encode_base64(file_data)
+
+        from os.path import basename
+        filename = basename(attachment)
+        file_data.add_header('Content-Disposition', 'attachment',
+                             filename=filename)
+        msg.attach(filename)
 
     targets = ','.join((recvs, cc, hidden_cc))
     smtp = SMTP_SSL(SMTP_SERVER, SMTP_PORT)
