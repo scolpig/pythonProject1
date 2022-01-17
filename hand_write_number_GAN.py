@@ -35,7 +35,7 @@ number_GAN_models = []
 for i in range(10):
     try: number_GAN_models.append(load_model('./models/generator_mnist_{}.h5'.format(i)))
     except: number_GAN_models.append(load_model('./models/generator_mnist_8.h5'))
-four_digit_number = '4621'
+four_digit_number = '3621'
 numbers = list(str(four_digit_number))
 print(numbers)
 imgs = []
